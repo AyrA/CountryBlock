@@ -51,6 +51,19 @@ namespace CountryBlock
 
         static int Main(string[] args)
         {
+            if (args.Contains("/PANIC"))
+            {
+                Console.Error.WriteLine("PANIC MODE: REMOVING ALL COUNTRYBLOCK RULES");
+                var CList = Firewall.GetBlockedCountries().Select(m => m.Key).ToArray();
+                foreach (var Code in CList)
+                {
+                    Console.Error.WriteLine("PANIC MODE: REMOVING {0}", Code);
+                    Firewall.UnblockCountry(Code);
+                }
+                Console.Error.WriteLine("PANIC MODE: ALL COUNTRYBLOCK RULES REMOVED!");
+                return 0;
+            }
+
             if (args.Length == 0 || args.Contains("/?"))
             {
                 ShowHelp();
