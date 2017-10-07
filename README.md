@@ -110,7 +110,7 @@ This Range contains a mixture of Addresses:
 
 If you block this Range your entire Connection is very likely to stop working.
 If this happens, simply unblock the Range again and request a new IP from your DHCP Server.
-Type `ipconfig /release && ipconfig/renew` in your Terminal for this.
+Type `ipconfig /release && ipconfig /renew` in your Terminal for this.
 As an alternative, reboot your device after removing the Rule.
 If you can't unblock because the cache file is missing, see the "Panic Mode" Chapter above
 
