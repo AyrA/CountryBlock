@@ -91,7 +91,7 @@ This is possible if the Address is owned by a Multi-national ISP.
 
 The default API is hosted in Switzerland.
 If you block this Range and delete the Cache File you will no longer be able to obtain it.
-The Application will no longer run and you need to manually remove the inbound Rules for `CH`.
+The Application will no longer run and you need to manually remove the outbound Rules for `CH`.
 Also see "Panic Mode" for Help in this Case.
 
 ## US
