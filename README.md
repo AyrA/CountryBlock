@@ -2,6 +2,12 @@
 
 Blocks entire Countries in Windows
 
+## Permissions
+
+Because Changes in the System Firewall affect all Users and Services,
+you need administrative Rights for this Application to execute.
+Keep this in Mind if you use it in your Scripts.
+
 ## Usage
 
     CountryBlock.exe {/add|/remove|/addr} <country> [/dir {in|out}] | /countries | /rules
