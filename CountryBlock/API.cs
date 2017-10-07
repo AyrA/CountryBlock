@@ -113,11 +113,11 @@ namespace CountryBlock
                 URL += "&" + string.Join("&", Params.Select(m => $"{Uri.EscapeDataString(m.Key)}={Uri.EscapeDataString(m.Value)}"));
             }
 
-            var Req = WebRequest.CreateHttp(URL);
-            HttpWebResponse Res = null;
+            var Req = WebRequest.Create(URL);
+            WebResponse Res = null;
             try
             {
-                Res = (HttpWebResponse)Req.GetResponse();
+                Res = Req.GetResponse();
             }
             catch
             {
