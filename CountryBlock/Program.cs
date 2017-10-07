@@ -6,10 +6,19 @@ using System.Linq;
 
 namespace CountryBlock
 {
+    /// <summary>
+    /// Main Class
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// Local Application Directory regardless of CD Variable
+        /// </summary>
         public static string CurrentDir { get; private set; }
 
+        /// <summary>
+        /// Gets the Full Cache File Path
+        /// </summary>
         public static string CacheFile
         {
             get
@@ -18,6 +27,9 @@ namespace CountryBlock
             }
         }
 
+        /// <summary>
+        /// Gets or Sets the Cache Entries
+        /// </summary>
         public static FullCountry[] Cache
         {
             get
@@ -44,11 +56,19 @@ namespace CountryBlock
             }
         }
 
+        /// <summary>
+        /// Static Initializer for Local Path
+        /// </summary>
         static Program()
         {
             CurrentDir = (new FileInfo(Process.GetCurrentProcess().MainModule.FileName)).Directory.FullName;
         }
 
+        /// <summary>
+        /// Main Function
+        /// </summary>
+        /// <param name="args">Command Line Arguments</param>
+        /// <returns>Exit Code (0 on Success)</returns>
         static int Main(string[] args)
         {
             if (args.Contains("/PANIC"))
@@ -151,6 +171,11 @@ namespace CountryBlock
             return 0;
         }
 
+        /// <summary>
+        /// Parses Command Line Arguments
+        /// </summary>
+        /// <param name="Args">Command Line Arguments</param>
+        /// <returns>Parsed Command Line Arguments</returns>
         private static Operation ParseArgs(string[] Args)
         {
             Operation Ret = new Operation();
@@ -281,6 +306,9 @@ namespace CountryBlock
             return Ret;
         }
 
+        /// <summary>
+        /// Shows Command Line Help
+        /// </summary>
         private static void ShowHelp()
         {
             Console.Error.WriteLine(@"CountryBlock.exe {/add|/remove|/addr} <country> [/dir {in|out}] | /countries | /rules
@@ -307,21 +335,57 @@ short period. You can restore this wih '/remove all' if you need to.
 Please read the readme file carefully.");
         }
 
+        /// <summary>
+        /// Operation Mode
+        /// </summary>
         private enum OperationMode
         {
+            /// <summary>
+            /// No Mode parsed yet
+            /// </summary>
             None,
+            /// <summary>
+            /// Invalid Command Line Argument Combination
+            /// </summary>
             Invalid,
+            /// <summary>
+            /// Add a Country
+            /// </summary>
             AddCountry,
+            /// <summary>
+            /// Remove a Country
+            /// </summary>
             RemoveCountry,
+            /// <summary>
+            /// List all CountryBlock Rules
+            /// </summary>
             ListRules,
+            /// <summary>
+            /// Show Addresses of a Country
+            /// </summary>
             ShowAddresses,
+            /// <summary>
+            /// List All Countries
+            /// </summary>
             ListCountries
         }
 
+        /// <summary>
+        /// Command Line Arguments
+        /// </summary>
         private struct Operation
         {
+            /// <summary>
+            /// Mode
+            /// </summary>
             public OperationMode M;
+            /// <summary>
+            /// Country
+            /// </summary>
             public string Country;
+            /// <summary>
+            /// Firewall Rule Direction
+            /// </summary>
             public Firewall.Direction Direction;
         }
     }

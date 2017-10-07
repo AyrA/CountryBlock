@@ -7,26 +7,60 @@ namespace CountryBlock
 {
     public static class Firewall
     {
+        /// <summary>
+        /// Firewall Rule Direction
+        /// </summary>
+        /// <remarks>
+        /// For TCP, the direction is only applied for the Connection Initiation.
+        /// Blocking Inbound still allows you to connect to any system and receive
+        /// a Response but it prevents them from starting a Connection
+        /// </remarks>
         [Flags]
         public enum Direction
         {
+            /// <summary>
+            /// Inbound
+            /// </summary>
             In = 1,
+            /// <summary>
+            /// Outbound
+            /// </summary>
             Out = 2,
+            /// <summary>
+            /// Both Directions
+            /// </summary>
             Both = In | Out
         }
 
+        /// <summary>
+        /// Rule Name Prefix
+        /// </summary>
         public const string BLOCK = "CountryBlock";
 
+        /// <summary>
+        /// Gets the Firewall Policy Object
+        /// </summary>
+        /// <returns></returns>
         private static INetFwPolicy2 GetPolicy()
         {
             return (INetFwPolicy2)Activator.CreateInstance(Type.GetTypeFromProgID("HNetCfg.FwPolicy2"));
         }
 
+        /// <summary>
+        /// Unblocks A Country
+        /// </summary>
+        /// <param name="C">Country</param>
+        /// <param name="D">Direction to Unblock</param>
         public static void UnblockCountry(Country C, Direction D = Direction.Both)
         {
             UnblockCountry(C.Code, D);
         }
 
+        /// <summary>
+        /// Unblocks A Country
+        /// </summary>
+        /// <param name="CountryCode">Country</param>
+        /// <param name="D">Direction to Unblock</param>
         public static void UnblockCountry(string CountryCode, Direction D = Direction.Both)
         {
             var Policy = GetPolicy();
@@ -46,11 +80,25 @@ namespace CountryBlock
             }
         }
 
+        /// <summary>
+        /// Blocks A Country
+        /// </summary>
+        /// <param name="C">Country</param>
+        /// <param name="IPList">IP Address List to Block</param>
+        /// <param name="D">Direction to Block</param>
+        /// <remarks>This first completely unblocks said Country</remarks>
         public static void BlockCountry(Country C, string[] IPList, Direction D = Direction.Both)
         {
             BlockCountry(C.Code, IPList, D);
         }
 
+        /// <summary>
+        /// Blocks A Country
+        /// </summary>
+        /// <param name="CountryCode">Country Code</param>
+        /// <param name="IPList">IP Address List to Block</param>
+        /// <param name="D">Direction to Block</param>
+        /// <remarks>This first completely unblocks said Country</remarks>
         public static void BlockCountry(string CountryCode, string[] IPList, Direction D = Direction.Both)
         {
             if (D == Direction.Both)
@@ -84,6 +132,10 @@ namespace CountryBlock
 
         }
 
+        /// <summary>
+        /// Gets All blocked Countries and the Direction they are blocked
+        /// </summary>
+        /// <returns>Dictionary with Country Codes and Block Direction</returns>
         public static Dictionary<string, Direction> GetBlockedCountries()
         {
             var Policies = GetPolicy()
