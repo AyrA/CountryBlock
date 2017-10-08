@@ -102,7 +102,19 @@ namespace CountryBlock
                 }
                 else
                 {
-
+                    DateTime DT = DateTime.UtcNow;
+                    try
+                    {
+                        DT = File.GetLastWriteTimeUtc(CacheFile);
+                    }
+                    catch
+                    {
+                        //File exists but we can't get the date?
+                    }
+                    if (DT.Ticks < TimeSpan.TicksPerDay * 180)
+                    {
+                        Console.Error.WriteLine("Cache file is more than 180 days old.\nYou should delete it so it updates.");
+                    }
                 }
 
                 var Country = Cache.FirstOrDefault(m => m.code == Arg.Country);
