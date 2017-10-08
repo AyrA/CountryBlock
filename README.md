@@ -62,12 +62,12 @@ The CountryBlock by Default uses the API from https://cable.ayra.ch/ip/.
 
 # IP Version
 
-At the Moment, this Application only supports IPv4
+This Application together with the default API supports IPv4 and IPv6
 
 # Cache
 
 The Application creates a Cache File called cache.json.
-The File is created when it is needed for the first Time.
+The File is created when it is needed for the first Time,
 it contains all Countries with all Subnets.
 Feel free to use it for other Purposes.
 See the "IP List" Chapter below before publishing it.
@@ -97,7 +97,7 @@ Also see "Panic Mode" for Help in this Case.
 ## US
 
 US is only mainland USA including Hawaii and Alaska.
-This applies to all Countries that have territories.
+This rule applies to all Countries that have territories.
 
 ## __
 
@@ -119,4 +119,3 @@ If you can't unblock because the cache file is missing, see the "Panic Mode" Cha
 The IP List in the API is from [ip2location](https://lite.ip2location.com/terms-of-use).
 It only uses the free version. If you publish the cache file you are required to give credit.
 Check the "GRANT OF RIGHTS" chapter in their TOS.
-
