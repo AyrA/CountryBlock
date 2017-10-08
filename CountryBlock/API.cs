@@ -12,7 +12,7 @@ namespace CountryBlock
     /// </summary>
     public static class API
     {
-        #pragma warning disable 0649
+#pragma warning disable 0649
         /// <summary>
         /// Basic API Response Layout
         /// </summary>
@@ -27,7 +27,7 @@ namespace CountryBlock
             /// </summary>
             public object data;
         }
-        #pragma warning restore 0649
+#pragma warning restore 0649
 
         /// <summary>
         /// Gets all Countries
@@ -88,15 +88,81 @@ namespace CountryBlock
         /// <returns></returns>
         public static FullCountry[] GetCache()
         {
-            var Response = GetResponse("all");
+            var D = new Dictionary<string, string>();
+            D["v"] = "4";
+            var Response4 = GetResponse("all", D);
+            D["v"] = "6";
+            var Response6 = GetResponse("all", D);
+
+            FullCountry[] Countries4;
+            FullCountry[] Countries6;
+            List<FullCountry> Ret=new List<FullCountry>();
+
             try
             {
-                return JsonConvert.DeserializeObject<FullCountry[]>(Response.data.ToString());
+                Countries4 = JsonConvert.DeserializeObject<FullCountry[]>(Response4.data.ToString());
+                Countries6 = JsonConvert.DeserializeObject<FullCountry[]>(Response6.data.ToString());
             }
             catch
             {
+                return null;
             }
-            return null;
+            //Loop through all country codes
+            foreach (var Code in Countries4.Select(m => m.code).Concat(Countries6.Select(m => m.code)).Distinct())
+            {
+                //Get V4 Addresses
+                var C4 = Countries4.FirstOrDefault(m => m.code == Code);
+                //Get V6 Addresses
+                var C6 = Countries6.FirstOrDefault(m => m.code == Code);
+                //Check if V4 was found
+                if (C4.code != null)
+                {
+                    //Check if V6 was found
+                    if (C6.code != null)
+                    {
+                        //Both found, simplify and concatenate
+                        C4.addr= C4.addr.Concat(C6.addr.Select(m => SimplifyV6(m))).ToArray();
+                    }
+                    //Add possibly extended V4 Entry
+                    Ret.Add(C4);
+                }
+                else
+                {
+                    //V4 does not exists, just simplify V6 addresses and add
+                    Ret.Add(SimplifyV6(C6));
+                }
+            }
+            //Return combined and sorted list
+            return Ret.OrderBy(m => m.code).ToArray();
+        }
+
+        /// <summary>
+        /// Shortens IPv6 Notation by replacing zero segments with ::
+        /// </summary>
+        /// <param name="Entry">Country</param>
+        /// <returns>Country with Shortened IP Address masks</returns>
+        private static FullCountry SimplifyV6(FullCountry Entry)
+        {
+            Entry.addr = Entry.addr.Select(m => SimplifyV6(m)).ToArray();
+            return Entry;
+        }
+
+        /// <summary>
+        /// Shortens IPv6 Notation by replacing zero segments with ::
+        /// </summary>
+        /// <param name="Entry">IP with optional mask</param>
+        /// <returns>Shortened IP Address</returns>
+        private static string SimplifyV6(string Entry)
+        {
+            var Mask = Entry.IndexOf('/');
+            if (Mask >= 0)
+            {
+                return IPAddress.Parse(Entry.Substring(0, Mask)).ToString() + "/" + Entry.Substring(Mask + 1);
+            }
+            else
+            {
+                return IPAddress.Parse(Entry).ToString();
+            }
         }
 
         /// <summary>

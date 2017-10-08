@@ -97,7 +97,12 @@ namespace CountryBlock
                 }
                 if (!File.Exists(CacheFile))
                 {
+                    Console.WriteLine("Get IP Cache...");
                     Cache = API.GetCache();
+                }
+                else
+                {
+
                 }
 
                 var Country = Cache.FirstOrDefault(m => m.code == Arg.Country);
