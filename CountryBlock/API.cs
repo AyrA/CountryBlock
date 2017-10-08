@@ -30,59 +30,6 @@ namespace CountryBlock
 #pragma warning restore 0649
 
         /// <summary>
-        /// Gets all Countries
-        /// </summary>
-        /// <returns>Country Array</returns>
-        public static Country[] GetCountries()
-        {
-            var Response = GetResponse("countries");
-            if (Response.success)
-            {
-                try
-                {
-                    return JsonConvert.DeserializeObject<Dictionary<string, string>>(Response.data.ToString()).Select(m => new Country() { Code = m.Key, Name = m.Value }).ToArray();
-                }
-                catch
-                {
-                }
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Gets all Addresses from a Country
-        /// </summary>
-        /// <param name="C">Country</param>
-        /// <returns>IP Array</returns>
-        public static string[] GetAddresses(Country C)
-        {
-            return GetAddresses(C.Code);
-        }
-
-        /// <summary>
-        /// Gets all Addresses from a Country
-        /// </summary>
-        /// <param name="CountryCode">Country</param>
-        /// <returns>IP Array</returns>
-        public static string[] GetAddresses(string CountryCode)
-        {
-            var Params = new Dictionary<string, string>();
-            Params["c"] = CountryCode;
-            var Response = GetResponse("country", Params);
-            if (Response.success)
-            {
-                try
-                {
-                    return JsonConvert.DeserializeObject<string[]>(Response.data.ToString());
-                }
-                catch
-                {
-                }
-            }
-            return null;
-        }
-
-        /// <summary>
         /// Gets the Full Cache from the API
         /// </summary>
         /// <returns></returns>
