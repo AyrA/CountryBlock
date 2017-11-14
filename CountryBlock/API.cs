@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 
 namespace CountryBlock
 {
@@ -126,7 +127,8 @@ namespace CountryBlock
                 URL += "&" + string.Join("&", Params.Select(m => $"{Uri.EscapeDataString(m.Key)}={Uri.EscapeDataString(m.Value)}"));
             }
 
-            var Req = WebRequest.Create(URL);
+            var Req = WebRequest.CreateHttp(URL);
+            Req.UserAgent = $"AyrA-CountryBlock/" + Assembly.GetExecutingAssembly().GetName().Version.ToString();
             WebResponse Res = null;
             try
             {
