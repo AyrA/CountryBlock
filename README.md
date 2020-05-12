@@ -1,3 +1,12 @@
+# `COUNTRY BLOCK IS NO LONGER DEVELOPED`
+
+CountryBlock has been superseeded by **AnyBlock**.
+AnyBlock uses the same API but supports other types of ranges too,
+including some data centers and all ASN ranges.
+
+- [AnyBlock Repository](https://github.com/AyrA/AnyBlock)
+- [AnyBlock Download](https://gitload.net/AyrA/AnyBlock)
+
 # CountryBlock
 
 Blocks entire Countries in Windows
